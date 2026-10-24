@@ -1,0 +1,8 @@
+# Simulation outputs
+sim
+gls
+*.vcd
+*.log
+
+# LibreLane run folders (very large)
+pnr/runs/
