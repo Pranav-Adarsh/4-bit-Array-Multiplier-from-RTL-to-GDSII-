@@ -4,8 +4,8 @@
 
 | Name | Roll number |
 |---|---|
-| TODO member 1 | TODO (placeholder, last digit 3 used for the Part A example) |
-| TODO member 2 | TODO |
+| Sri Pranavadarsh Tadepalli | 2024102028 (last digit 8 used for the Part A example: A = 13, B = 7) |
+| Srikar Krishna Durbha | 2024112010 |
 
 ## Environment
 
@@ -36,4 +36,17 @@ vvp sim
 ```
 
 and restored the original line.
+
+## Part B: Logic synthesis
+
+```bash
+yosys -c synth/synth.tcl
+# writes synth/mult_array_netlist.v and synth/mult_array_stat.rpt
+
+CELLS=$PDK_ROOT/sky130A/libs.ref/sky130_fd_sc_hd/verilog
+iverilog -g2012 -DFUNCTIONAL -DUNIT_DELAY=#1 -o gls \
+  tb/tb_mult.v $CELLS/primitives.v $CELLS/sky130_fd_sc_hd.v synth/mult_array_netlist.v
+vvp gls
+# PASS: 256 vectors checked, 0 errors
+```
 
