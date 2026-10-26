@@ -59,3 +59,36 @@ STA_PERIOD=2.79 sta sta/sta.tcl    # T = Tmin = 10 - 7.213 = 2.787 -> 2.79 ns: w
 
 `sta/mult_array_timing.rpt` is from the final run at T = 2.79 ns.
 
+## Part D: Physical design
+
+Starting CLOCK_PERIOD = 1.2 × Tmin = 1.2 × 2.787 = 3.34 ns, rounded up to 3.5 ns. Each failed run raised it by 0.5 ns
+(`CLOCK_PERIOD` edited in `pnr/config.json`, then):
+
+```bash
+cd pnr
+librelane config.json
+```
+
+| Run | CLOCK_PERIOD (ns) | Result | Worst setup slack, all corners (ns) | Typical-corner slack (ns) | DRC | LVS |
+|---|---|---|---|---|---|---|
+| 1 | 3.5 | setup violations (ss corners) | -2.546 | +0.431 | 0 | 0 |
+| 2 | 4.0 | setup violations (ss corners) | -2.027 | +0.929 | 0 | 0 |
+| 3 | 4.5 | setup violations (ss corners) | -1.527 | +1.429 | 0 | 0 |
+| 4 | 5.0 | setup violations (ss corners) | -1.027 | +1.929 | 0 | 0 |
+| 5 | 5.5 | setup violations (ss corners) | -0.527 | +2.429 | 0 | 0 |
+| 6 | 6.0 | setup violations (ss corners) | -0.037 | +2.911 | 0 | 0 |
+| 7 | 6.5 | setup violations (ss corners) | -0.205 | +3.111 | 0 | 0 |
+| 8 | 7.0 | setup violations (ss corners) | -0.116 | +3.526 | 0 | 0 |
+| 9 | 7.5 | setup violations (ss corners) | -0.138 | +3.722 | 0 | 0 |
+| 10 | 8.0 | **passed** | +0.362 | +4.222 | 0 | 0 |
+
+After removing comments from the sources, the flow was run once more at 8.0 ns (`runs/RUN_2026-10-23_21-24-25`)
+with identical results. Its `final/metrics.json` and `final/gds/mult_array.gds` were copied:
+
+```bash
+cd pnr
+librelane config.json
+cp runs/RUN_2026-10-23_21-24-25/final/metrics.json metrics.json
+cp runs/RUN_2026-10-23_21-24-25/final/gds/mult_array.gds mult_array.gds
+klayout mult_array.gds
+```
