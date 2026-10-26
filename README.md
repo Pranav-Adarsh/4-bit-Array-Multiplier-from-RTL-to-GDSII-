@@ -50,3 +50,12 @@ vvp gls
 # PASS: 256 vectors checked, 0 errors
 ```
 
+## Part C: Static timing analysis
+
+```bash
+sta sta/sta.tcl                    # T = 10 ns: worst slack 7.213 ns
+STA_PERIOD=2.79 sta sta/sta.tcl    # T = Tmin = 10 - 7.213 = 2.787 -> 2.79 ns: worst slack 0.003 ns
+```
+
+`sta/mult_array_timing.rpt` is from the final run at T = 2.79 ns.
+
